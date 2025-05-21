@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 // 샘플 데이터 구조
 const sampleTasks = [
@@ -194,26 +194,28 @@ const sampleTasks = [
   }
 ];
 
-const colorMap = {
-  0: "bg-black",
-  1: "bg-blue-500",
-  2: "bg-red-500",
-  3: "bg-green-500",
-  4: "bg-yellow-400",
-  5: "bg-gray-400",
-  6: "bg-pink-500",
-  7: "bg-orange-500",
-  8: "bg-sky-300",
-  9: "bg-rose-800"
-};
-
 export default function ARCTrajViewer() {
   const [selectedTaskId, setSelectedTaskId] = useState(null);
   const [selectedLogId, setSelectedLogId] = useState(null);
+  const [step, setStep] = useState(0);
 
   const selectedTask = sampleTasks.find((task) => task.id === selectedTaskId);
   const selectedLog = selectedTask?.logs.find((log) => log.logId === selectedLogId);
-  const firstState = selectedLog?.trajectory[0];
+  const trajectory = selectedLog?.trajectory || [];
+  const currentState = trajectory[step];
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (!trajectory.length) return;
+      if (e.key === "ArrowRight") {
+        setStep((prev) => Math.min(prev + 1, trajectory.length - 1));
+      } else if (e.key === "ArrowLeft") {
+        setStep((prev) => Math.max(prev - 1, 0));
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [trajectory]);
 
   return (
     <div className="flex min-h-screen w-screen font-sans">
@@ -231,6 +233,7 @@ export default function ARCTrajViewer() {
                 onClick={() => {
                   setSelectedTaskId(task.id);
                   setSelectedLogId(null);
+                  setStep(0);
                 }}
               >
                 {task.id}
@@ -248,7 +251,10 @@ export default function ARCTrajViewer() {
                     className={`cursor-pointer px-2 py-1 rounded hover:bg-gray-700 ${
                       selectedLogId === log.logId ? "bg-gray-700" : ""
                     }`}
-                    onClick={() => setSelectedLogId(log.logId)}
+                    onClick={() => {
+                      setSelectedLogId(log.logId);
+                      setStep(0);
+                    }}
                   >
                     log #{log.logId} (score: {log.score})
                   </li>
@@ -262,18 +268,18 @@ export default function ARCTrajViewer() {
       {/* 오른쪽 Trajectory Viewer */}
       <div className="flex-grow bg-black text-white p-6 flex flex-col items-start">
         <h1 className="text-xl font-bold mb-4">Trajectory Viewer</h1>
-        {firstState ? (
+        {currentState ? (
           <div>
-            <p className="mb-2">First Step: {firstState.action}</p>
+            <p className="mb-2">Step {step}: {currentState.action}</p>
             <div
               className="grid gap-1"
               style={{
-                gridTemplateColumns: `repeat(${firstState.grid[0].length}, minmax(0, 2.5rem))`
+                gridTemplateColumns: `repeat(${currentState.grid[0].length}, minmax(0, 2.5rem))`
               }}
             >
-              {firstState.grid.map((row, y) =>
+              {currentState.grid.map((row, y) =>
                 row.map((val, x) => {
-                  const objectHere = firstState.objects.find((o) => o.x === x && o.y === y);
+                  const objectHere = currentState.objects.find((o) => o.x === x && o.y === y);
                   const colorClass = colorMap[objectHere ? objectHere.color : val] || "bg-gray-300";
                   return <div key={`${x}-${y}`} className={`w-10 h-10 ${colorClass} border`} />;
                 })
