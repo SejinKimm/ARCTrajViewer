@@ -142,7 +142,7 @@ export default function ARCTrajViewer() {
             <>
               <h2 className="text-lg font-semibold mb-2">📝 Logs</h2>
               <ul>
-                {selectedTask.logs.map((log) => (
+                {[...selectedTask.logs].sort((a, b) => b.score - a.score).map((log) => (
                   <li
                     key={log.logId}
                     className={`cursor-pointer px-2 py-1 rounded hover:bg-gray-700 ${
