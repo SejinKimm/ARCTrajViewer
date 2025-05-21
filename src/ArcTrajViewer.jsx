@@ -41,7 +41,7 @@ const colorMap = {
   8: "bg-sky-300",
   9: "bg-rose-800"
 };
-  
+
 export default function ArcTrajViewer() {
   const [tasks, setTasks] = useState([]);
   const [selectedTaskId, setSelectedTaskId] = useState(null);
@@ -55,9 +55,14 @@ export default function ArcTrajViewer() {
         const parsed = Papa.parse(text, { header: true });
         const rows = parsed.data.filter(r => r.logId && r.taskId && r.actionSequence);
 
+        console.log("First few taskIds from CSV:", rows.slice(0, 3).map(r => r.taskId));
+
         const grouped = {};
         for (const row of rows) {
-          const { logId, taskId, score, actionSequence } = row;
+          const rawTaskId = row.taskId?.trim();
+          if (!HARDCODED_TASK_IDS.includes(rawTaskId)) continue;
+
+          const { logId, score, actionSequence } = row;
           let trajectory;
           try {
             trajectory = JSON.parse(actionSequence).map((entry, idx) => ({
@@ -66,22 +71,18 @@ export default function ArcTrajViewer() {
               objects: entry.object || [],
               action: `${entry.operation} (${entry.position?.x ?? ""},${entry.position?.y ?? ""})`
             }));
-          } catch (err) {
+          } catch {
             console.warn("❌ Failed to parse logId:", row.logId, "→", row.actionSequence?.slice(0, 100));
             continue;
           }
 
-          if (!grouped[taskId]) grouped[taskId] = [];
-          grouped[taskId].push({
+          if (!grouped[rawTaskId]) grouped[rawTaskId] = [];
+          grouped[rawTaskId].push({
             logId: Number(logId),
             score: Number(score),
             trajectory
           });
         }
-
-        // 🔍 그룹핑 결과 콘솔 출력
-        console.log("✅ Grouped Logs by taskId:", grouped);
-        console.log("총 Task 수:", Object.keys(grouped).length);
 
         const taskList = HARDCODED_TASK_IDS.map((taskId) => {
           const logs = grouped[taskId] || [];
@@ -89,6 +90,7 @@ export default function ArcTrajViewer() {
           return { id: taskId, logs };
         });
 
+        console.log("✅ Parsed Task Count:", taskList.length);
         setTasks(taskList);
       });
   }, []);
@@ -114,32 +116,32 @@ export default function ArcTrajViewer() {
   return (
     <div className="flex min-h-screen w-screen font-sans">
       {/* 왼쪽 사이드바 */}
-      <div className="w-64 bg-gray-900 text-white p-4 flex flex-col">
+      <div className="w-64 h-screen overflow-y-auto bg-gray-900 text-white p-4 flex flex-col">
         <div>
           <h2 className="text-lg font-semibold mb-2">📁 Tasks</h2>
-          <ul className="mb-4 overflow-y-scroll max-h-[calc(100vh-6rem)] pr-1">
-            {HARDCODED_TASK_IDS.map((taskId) => (
+          <ul className="mb-4 space-y-1">
+            {tasks.map((task) => (
               <li
-                key={taskId}
+                key={task.id}
                 className={`cursor-pointer px-2 py-1 rounded hover:bg-gray-700 ${
-                  selectedTaskId === taskId ? "bg-gray-700" : ""
+                  selectedTaskId === task.id ? "bg-gray-700" : ""
                 }`}
                 onClick={() => {
-                  setSelectedTaskId(taskId);
+                  setSelectedTaskId(task.id);
                   setSelectedLogId(null);
                   setStep(0);
                 }}
               >
-                {taskId}
+                {task.id}
               </li>
             ))}
           </ul>
 
-          {selectedTaskId && (
+          {selectedTask && (
             <>
               <h2 className="text-lg font-semibold mb-2">📝 Logs</h2>
-              <ul className="overflow-y-scroll max-h-64 pr-1">
-                {tasks.find((task) => task.id === selectedTaskId)?.logs.map((log) => (
+              <ul className="space-y-1">
+                {selectedTask.logs.map((log) => (
                   <li
                     key={log.logId}
                     className={`cursor-pointer px-2 py-1 rounded hover:bg-gray-700 ${
@@ -152,9 +154,7 @@ export default function ArcTrajViewer() {
                   >
                     log #{log.logId} (score: {log.score})
                   </li>
-                )) ?? (
-                  <li className="text-gray-400 italic px-2 py-1">해당 task에 대한 로그 없음</li>
-                )}
+                ))}
               </ul>
             </>
           )}
