@@ -52,7 +52,7 @@ export default function ArcTrajViewer() {
     fetch("/ARCTraj_with_scores.csv")
       .then(res => res.text())
       .then(text => {
-        const parsed = Papa.parse(text, { header: true });
+        const parsed = Papa.parse(text, {header: true, skipEmptyLines: true, dynamicTyping: true});
         const rows = parsed.data.filter(r => r.logId && r.taskId && r.actionSequence);
 
         console.log("First few taskIds from CSV:", rows.slice(0, 3).map(r => r.taskId));
@@ -90,6 +90,8 @@ export default function ArcTrajViewer() {
           return { id: taskId, logs };
         });
 
+        console.log("Parsed CSV Headers:", parsed.meta.fields);
+        console.log("Example row:", parsed.data[0]);
         console.log("Parsed CSV Headers:", Object.keys(parsed.data[0] || {}));
         console.log("✅ Parsed Task Count:", taskList.length);
         setTasks(taskList);
