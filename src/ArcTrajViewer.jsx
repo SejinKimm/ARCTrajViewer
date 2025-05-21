@@ -30,8 +30,8 @@ const HARDCODED_TASK_IDS = [
 ];
 
 const CSV_FILES = [
-  "/ARCTraj_with_scores_01.csv", 
-  "/ARCTraj_with_scores_02.csv", 
+  "/ARCTraj_with_scores_01.csv",
+  "/ARCTraj_with_scores_02.csv",
   "/ARCTraj_with_scores_03.csv"
 ];
 
