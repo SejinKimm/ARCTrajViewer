@@ -20,12 +20,77 @@ const sampleTasks = [
             action: "SelectCell (0,1)"
           }
         ]
+      },
+      {
+        logId: 3,
+        score: 78978,
+        trajectory: [
+          {
+            time: 0,
+            grid: [
+              [3, 0, 3],
+              [0, 0, 0],
+              [0, 0, 0]
+            ],
+            objects: [{ x: 0, y: 0, color: 3 }],
+            action: "SelectCell (0,0)"
+          }
+        ]
+      },
+      {
+        logId: 4,
+        score: 40001,
+        trajectory: [
+          {
+            time: 0,
+            grid: [
+              [0, 0, 0],
+              [0, 3, 0],
+              [0, 0, 3]
+            ],
+            objects: [{ x: 1, y: 1, color: 3 }],
+            action: "SelectCell (1,1)"
+          }
+        ]
       }
     ]
   },
   {
     id: "d3f4ac12",
-    logs: []
+    logs: [
+      {
+        logId: 2,
+        score: 22222,
+        trajectory: [
+          {
+            time: 0,
+            grid: [
+              [0, 0, 3],
+              [0, 0, 0],
+              [0, 3, 0]
+            ],
+            objects: [{ x: 2, y: 0, color: 3 }],
+            action: "SelectCell (2,0)"
+          }
+        ]
+      },
+      {
+        logId: 5,
+        score: 88776,
+        trajectory: [
+          {
+            time: 0,
+            grid: [
+              [3, 0, 0],
+              [0, 0, 0],
+              [3, 0, 0]
+            ],
+            objects: [{ x: 0, y: 0, color: 3 }],
+            action: "SelectCell (0,0)"
+          }
+        ]
+      }
+    ]
   }
 ];
 
@@ -43,15 +108,15 @@ const colorMap = {
 };
 
 export default function ARCTrajViewer() {
-  const [selectedTaskId, setSelectedTaskId] = useState(sampleTasks[0].id);
-  const [selectedLogId, setSelectedLogId] = useState(sampleTasks[0].logs[0].logId);
+  const [selectedTaskId, setSelectedTaskId] = useState(null);
+  const [selectedLogId, setSelectedLogId] = useState(null);
 
   const selectedTask = sampleTasks.find((task) => task.id === selectedTaskId);
   const selectedLog = selectedTask?.logs.find((log) => log.logId === selectedLogId);
   const firstState = selectedLog?.trajectory[0];
 
   return (
-    <div className="flex h-screen font-sans">
+    <div className="flex min-h-screen w-screen font-sans">
       {/* 왼쪽 사이드바 */}
       <div className="w-64 bg-gray-900 text-white p-4 flex flex-col">
         <div>
@@ -65,9 +130,7 @@ export default function ARCTrajViewer() {
                 }`}
                 onClick={() => {
                   setSelectedTaskId(task.id);
-                  if (task.logs.length > 0) {
-                    setSelectedLogId(task.logs[0].logId);
-                  }
+                  setSelectedLogId(null);
                 }}
               >
                 {task.id}
@@ -75,25 +138,29 @@ export default function ARCTrajViewer() {
             ))}
           </ul>
 
-          <h2 className="text-lg font-semibold mb-2">📝 Logs</h2>
-          <ul>
-            {selectedTask?.logs.map((log) => (
-              <li
-                key={log.logId}
-                className={`cursor-pointer px-2 py-1 rounded hover:bg-gray-700 ${
-                  selectedLogId === log.logId ? "bg-gray-700" : ""
-                }`}
-                onClick={() => setSelectedLogId(log.logId)}
-              >
-                log #{log.logId} (score: {log.score})
-              </li>
-            )) || <li className="text-sm text-gray-400">No logs</li>}
-          </ul>
+          {selectedTask && (
+            <>
+              <h2 className="text-lg font-semibold mb-2">📝 Logs</h2>
+              <ul>
+                {selectedTask.logs.map((log) => (
+                  <li
+                    key={log.logId}
+                    className={`cursor-pointer px-2 py-1 rounded hover:bg-gray-700 ${
+                      selectedLogId === log.logId ? "bg-gray-700" : ""
+                    }`}
+                    onClick={() => setSelectedLogId(log.logId)}
+                  >
+                    log #{log.logId} (score: {log.score})
+                  </li>
+                ))}
+              </ul>
+            </>
+          )}
         </div>
       </div>
 
       {/* 오른쪽 Trajectory Viewer */}
-      <div className="flex-1 bg-black text-white p-6 overflow-auto flex flex-col items-start">
+      <div className="flex-grow bg-black text-white p-6 flex flex-col items-start">
         <h1 className="text-xl font-bold mb-4">Trajectory Viewer</h1>
         {firstState ? (
           <div>
