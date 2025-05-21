@@ -177,7 +177,7 @@ export default function ArcTrajViewer() {
       <div className="flex flex-grow w-full">
         {/* 왼쪽 사이드바 */}
         <div className="w-[28rem] h-screen overflow-y-auto bg-gray-900 text-white p-4 flex flex-col">
-          <h2 className="text-lg font-semibold mb-2">📁 Tasks</h2>
+          <h2 className="text-xl font-bold mb-4">📁 Tasks</h2>
           {loading ? (
             <p className="text-gray-400">Loading tasks...</p>
           ) : (
@@ -229,7 +229,7 @@ export default function ArcTrajViewer() {
 
         {/* 오른쪽 Trajectory Viewer */}
         <div className="flex-grow bg-black text-white p-6 flex flex-col items-start">
-          <h1 className="text-xl font-bold mb-4">Trajectory Viewer</h1>
+          <h1 className="text-xl font-bold mb-4">🔍 Trajectory Viewer</h1>
           {currentState ? (
             <div>
               <p className="mb-2">Step {step}: {currentState.action}</p>
