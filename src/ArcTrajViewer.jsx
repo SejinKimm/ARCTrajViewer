@@ -179,7 +179,7 @@ export default function ArcTrajViewer() {
                   </div>
 
                   {selectedTaskId === task.id && (
-                    <ul className="ml-2 mt-1 space-y-1 border-l border-gray-700 pl-2 max-h-48 overflow-y-auto">
+                    <ul className="ml-2 mt-1 space-y-1 border-l border-gray-700 pl-2 max-h-96 overflow-y-auto">
                       {task.logs.map((log) => (
                         <li
                           key={log.logId}
@@ -226,7 +226,7 @@ export default function ArcTrajViewer() {
               </div>
             </div>
           ) : (
-            <p className="text-gray-400">No trajectory to display.</p>
+            <p className="text-gray-400">Select Task and Log</p>
           )}
         </div>
       </div>
