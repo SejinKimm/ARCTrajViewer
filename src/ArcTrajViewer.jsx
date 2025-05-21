@@ -139,20 +139,12 @@ export default function ArcTrajViewer() {
             Hugging Face
           </a>
           <a
-            href="https://github.com/SejinKimm/ARCTrajViewer"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded"
-          >
-            GitHub
-          </a>
-          <a
             href="https://openreview.net/forum?id=AUoA3ztOLf"
             target="_blank"
             rel="noopener noreferrer"
             className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded"
           >
-            Paper (under review)
+            Paper
           </a>
         </div>
       </div>
@@ -235,7 +227,7 @@ export default function ArcTrajViewer() {
               </div>
             </div>
           ) : (
-            <p className="text-gray-400">No trajectory to display.</p>
+            <p className="text-gray-400">Select Task and Log.</p>
           )}
         </div>
       </div>
