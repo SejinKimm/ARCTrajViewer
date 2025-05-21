@@ -29,6 +29,7 @@ const HARDCODED_TASK_IDS = [
   "f25ffba3", "f2829549", "f35d900a", "f5b8619d", "f76d97a5", "f8a8fe49", "f8b3ba0a", "f8c80d96", "f8ff0b80", "f9012d9b", "fafffa47", "fcb5c309", "fcc82909", "feca6190", "ff28f65a", "ff805c23"
 ];
 
+
 const CSV_FILES = [
   "/ARCTraj_with_scores_01.csv",
   "/ARCTraj_with_scores_02.csv",
@@ -138,6 +139,14 @@ export default function ArcTrajViewer() {
             Hugging Face
           </a>
           <a
+            href="https://github.com/SejinKimm/ARCTrajViewer"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded"
+          >
+            GitHub
+          </a>
+          <a
             href="https://openreview.net/forum?id=AUoA3ztOLf"
             target="_blank"
             rel="noopener noreferrer"
@@ -179,7 +188,7 @@ export default function ArcTrajViewer() {
                   </div>
 
                   {selectedTaskId === task.id && (
-                    <ul className="ml-2 mt-1 space-y-1 border-l border-gray-700 pl-2 max-h-96 overflow-y-auto">
+                    <ul className="ml-2 mt-1 space-y-1 border-l border-gray-700 pl-2 max-h-48 overflow-y-auto">
                       {task.logs.map((log) => (
                         <li
                           key={log.logId}
@@ -226,7 +235,7 @@ export default function ArcTrajViewer() {
               </div>
             </div>
           ) : (
-            <p className="text-gray-400">Select Task and Log</p>
+            <p className="text-gray-400">No trajectory to display.</p>
           )}
         </div>
       </div>
