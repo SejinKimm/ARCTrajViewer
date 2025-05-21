@@ -251,7 +251,7 @@ export default function ArcTrajViewer() {
               </div>
             </div>
           ) : (
-            <p className="text-gray-400">No trajectory to display.</p>
+            <p className="text-gray-400">Please Select Task and Log.</p>
           )}
         </div>
       </div>
