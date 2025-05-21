@@ -150,7 +150,7 @@ export default function ArcTrajViewer() {
       {/* 본문 레이아웃 */}
       <div className="flex flex-grow">
         {/* 왼쪽 사이드바 */}
-        <div className="w-[28rem] h-screen overflow-y-auto bg-gray-900 text-white p-4 flex flex-col">
+        <div className="w-[24rem] h-screen overflow-y-auto bg-gray-900 text-white p-4 flex flex-col">
           <h2 className="text-lg font-semibold mb-2">📁 Tasks</h2>
           <ul className="space-y-1">
             {tasks.map((task) => (
@@ -175,7 +175,7 @@ export default function ArcTrajViewer() {
                 </div>
 
                 {selectedTaskId === task.id && (
-                  <ul className="ml-2 mt-1 space-y-1 border-l border-gray-700 pl-2 max-h-48 overflow-y-auto">
+                  <ul className="ml-2 mt-1 space-y-1 border-l border-gray-700 pl-2 max-h-64 overflow-y-auto">
                     {task.logs.map((log) => (
                       <li
                         key={log.logId}
