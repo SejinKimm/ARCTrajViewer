@@ -90,6 +90,7 @@ export default function ArcTrajViewer() {
           return { id: taskId, logs };
         });
 
+        console.log("Parsed CSV Headers:", Object.keys(parsed.data[0] || {}));
         console.log("✅ Parsed Task Count:", taskList.length);
         setTasks(taskList);
       });
