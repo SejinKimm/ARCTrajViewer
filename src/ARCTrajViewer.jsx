@@ -14,7 +14,7 @@ const colorMap = {
   9: "bg-rose-800"
 };
   
-export default function ARCTrajViewer() {
+export default function ArcTrajViewer() {
   const [tasks, setTasks] = useState([]);
   const [selectedTaskId, setSelectedTaskId] = useState(null);
   const [selectedLogId, setSelectedLogId] = useState(null);
