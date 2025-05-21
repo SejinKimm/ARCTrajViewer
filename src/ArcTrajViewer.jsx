@@ -131,11 +131,13 @@ export default function ArcTrajViewer() {
 
   return (
     <div className="flex min-h-screen w-screen font-sans">
-      {/* 왼쪽 사이드바 */}
+      {/* 왼쪽 사이드바 전체 */}
       <div className="w-64 h-screen overflow-y-auto bg-gray-900 text-white p-4 flex flex-col">
-        <div>
+
+        {/* Task 영역 */}
+        <div className="flex-1 overflow-y-auto">
           <h2 className="text-lg font-semibold mb-2">📁 Tasks</h2>
-          <ul className="mb-4 space-y-1">
+          <ul className="space-y-1">
             {tasks.map((task) => (
               <li
                 key={task.id}
@@ -152,29 +154,30 @@ export default function ArcTrajViewer() {
               </li>
             ))}
           </ul>
-
-          {selectedTask && (
-            <>
-              <h2 className="text-lg font-semibold mb-2">📝 Logs</h2>
-              <ul className="space-y-1">
-                {selectedTask.logs.map((log) => (
-                  <li
-                    key={log.logId}
-                    className={`cursor-pointer px-2 py-1 rounded hover:bg-gray-700 ${
-                      selectedLogId === log.logId ? "bg-gray-700" : ""
-                    }`}
-                    onClick={() => {
-                      setSelectedLogId(log.logId);
-                      setStep(0);
-                    }}
-                  >
-                    log #{log.logId} (score: {log.score})
-                  </li>
-                ))}
-              </ul>
-            </>
-          )}
         </div>
+
+        {/* Logs 영역 (선택한 Task 있을 때만) */}
+        {selectedTask && (
+          <div className="mt-4 max-h-64 overflow-y-auto border-t border-gray-700 pt-2">
+            <h2 className="text-lg font-semibold mb-2">📝 Logs</h2>
+            <ul className="space-y-1">
+              {selectedTask.logs.map((log) => (
+                <li
+                  key={log.logId}
+                  className={`cursor-pointer px-2 py-1 rounded hover:bg-gray-700 ${
+                    selectedLogId === log.logId ? "bg-gray-700" : ""
+                  }`}
+                  onClick={() => {
+                    setSelectedLogId(log.logId);
+                    setStep(0);
+                  }}
+                >
+                  log #{log.logId} (score: {log.score})
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
 
       {/* 오른쪽 Trajectory Viewer */}
