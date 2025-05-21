@@ -29,7 +29,6 @@ const HARDCODED_TASK_IDS = [
   "f25ffba3", "f2829549", "f35d900a", "f5b8619d", "f76d97a5", "f8a8fe49", "f8b3ba0a", "f8c80d96", "f8ff0b80", "f9012d9b", "fafffa47", "fcb5c309", "fcc82909", "feca6190", "ff28f65a", "ff805c23"
 ];
 
-
 const CSV_FILES = [
   "/ARCTraj_with_scores_01.csv",
   "/ARCTraj_with_scores_02.csv",
@@ -122,7 +121,7 @@ export default function ArcTrajViewer() {
   }, [trajectory]);
 
   return (
-    <div className="flex flex-col min-h-screen w-screen max-w-full overflow-x-hidden font-sans">
+    <div className="flex flex-col min-h-screen w-full max-w-full overflow-x-hidden font-sans">
       {/* 상단 헤더 */}
       <div className="bg-gray-900 text-white text-center py-6 shadow-md">
         <h1 className="text-4xl font-black mb-2">ARCTraj</h1>
@@ -139,26 +138,18 @@ export default function ArcTrajViewer() {
             Hugging Face
           </a>
           <a
-            href="https://github.com/SejinKimm/ARCTrajViewer"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded"
-          >
-            GitHub
-          </a>
-          <a
             href="https://openreview.net/forum?id=AUoA3ztOLf"
             target="_blank"
             rel="noopener noreferrer"
             className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded"
           >
-            Paper (under review)
+            Paper
           </a>
         </div>
       </div>
 
       {/* 본문 레이아웃 */}
-      <div className="flex flex-grow">
+      <div className="flex flex-grow w-full">
         {/* 왼쪽 사이드바 */}
         <div className="w-[28rem] h-screen overflow-y-auto bg-gray-900 text-white p-4 flex flex-col">
           <h2 className="text-lg font-semibold mb-2">📁 Tasks</h2>
