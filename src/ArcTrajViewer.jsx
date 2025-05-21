@@ -131,32 +131,31 @@ export default function ArcTrajViewer() {
 
   return (
     <div className="flex min-h-screen w-screen font-sans">
-      {/* 왼쪽 사이드바 전체 */}
+      {/* 왼쪽 사이드바 */}
       <div className="w-64 h-screen overflow-y-auto bg-gray-900 text-white p-4 flex flex-col">
-
-        {/* Task 영역 */}
-        <div className="flex-1 overflow-y-auto">
-          <h2 className="text-lg font-semibold mb-2">📁 Tasks</h2>
-          <ul className="space-y-1">
-            {tasks.map((task) => (
-              <li
-                key={task.id}
-                className={`cursor-pointer px-2 py-1 rounded hover:bg-gray-700 ${
-                  selectedTaskId === task.id ? "bg-gray-700" : ""
-                }`}
-                onClick={() => {
+        <h2 className="text-lg font-semibold mb-2">📁 Tasks</h2>
+        <ul className="space-y-1">
+          {tasks.map((task) => (
+            <li
+              key={task.id}
+              className={`cursor-pointer px-2 py-1 rounded hover:bg-gray-700 ${selectedTaskId === task.id ? "bg-gray-700" : ""}`}
+              onClick={() => {
+                if (selectedTaskId === task.id) {
+                  setSelectedTaskId(null);
+                  setSelectedLogId(null);
+                  setStep(0);
+                } else {
                   setSelectedTaskId(task.id);
                   setSelectedLogId(null);
                   setStep(0);
-                }}
-              >
-                {task.id}
-              </li>
-            ))}
-          </ul>
-        </div>
+                }
+              }}
+            >
+              {task.id}
+            </li>
+          ))}
+        </ul>
 
-        {/* Logs 영역 (선택한 Task 있을 때만) */}
         {selectedTask && (
           <div className="mt-4 max-h-64 overflow-y-auto border-t border-gray-700 pt-2">
             <h2 className="text-lg font-semibold mb-2">📝 Logs</h2>
@@ -164,9 +163,7 @@ export default function ArcTrajViewer() {
               {selectedTask.logs.map((log) => (
                 <li
                   key={log.logId}
-                  className={`cursor-pointer px-2 py-1 rounded hover:bg-gray-700 ${
-                    selectedLogId === log.logId ? "bg-gray-700" : ""
-                  }`}
+                  className={`cursor-pointer px-2 py-1 rounded hover:bg-gray-700 ${selectedLogId === log.logId ? "bg-gray-700" : ""}`}
                   onClick={() => {
                     setSelectedLogId(log.logId);
                     setStep(0);
@@ -182,7 +179,7 @@ export default function ArcTrajViewer() {
 
       {/* 오른쪽 Trajectory Viewer */}
       <div className="flex-grow bg-black text-white p-6 flex flex-col items-start">
-        <h1 className="text-xl font-bold mb-4">Trajectory Viewer</h1>
+        <h1 className="text-xl font-bold mb-4">ARCTraj Viewer</h1>
         {currentState ? (
           <div>
             <p className="mb-2">Step {step}: {currentState.action}</p>
