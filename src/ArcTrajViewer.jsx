@@ -126,11 +126,11 @@ export default function ArcTrajViewer() {
             ))}
           </ul>
 
-          {selectedTask && (
+          {selectedTaskId && (
             <>
               <h2 className="text-lg font-semibold mb-2">📝 Logs</h2>
               <ul className="overflow-y-scroll max-h-64 pr-1">
-                {selectedTask.logs.map((log) => (
+                {tasks.find((task) => task.id === selectedTaskId)?.logs.map((log) => (
                   <li
                     key={log.logId}
                     className={`cursor-pointer px-2 py-1 rounded hover:bg-gray-700 ${
@@ -143,7 +143,9 @@ export default function ArcTrajViewer() {
                   >
                     log #{log.logId} (score: {log.score})
                   </li>
-                ))}
+                )) ?? (
+                  <li className="text-gray-400 italic px-2 py-1">해당 task에 대한 로그 없음</li>
+                )}
               </ul>
             </>
           )}
