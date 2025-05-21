@@ -53,10 +53,10 @@ export default function ARCTrajViewer() {
   return (
     <div className="flex h-screen font-sans">
       {/* 왼쪽 사이드바 */}
-      <div className="w-1/4 bg-gray-900 text-white p-4 flex flex-col justify-between">
+      <div className="w-64 bg-gray-900 text-white p-4 flex flex-col">
         <div>
           <h2 className="text-lg font-semibold mb-2">📁 Tasks</h2>
-          <ul>
+          <ul className="mb-6">
             {sampleTasks.map((task) => (
               <li
                 key={task.id}
@@ -76,8 +76,8 @@ export default function ARCTrajViewer() {
           </ul>
         </div>
 
-        <div>
-          <h2 className="text-lg font-semibold mt-6 mb-2">📝 Logs</h2>
+        <div className="mt-auto">
+          <h2 className="text-lg font-semibold mb-2">📝 Logs</h2>
           <ul>
             {selectedTask?.logs.map((log) => (
               <li
@@ -95,12 +95,17 @@ export default function ARCTrajViewer() {
       </div>
 
       {/* 오른쪽 Trajectory Viewer */}
-      <div className="flex-1 bg-black text-white p-6">
+      <div className="flex-1 bg-black text-white p-6 overflow-auto">
         <h1 className="text-xl font-bold mb-4">Trajectory Viewer</h1>
         {firstState ? (
           <div>
             <p className="mb-2">First Step: {firstState.action}</p>
-            <div className={`grid grid-cols-${firstState.grid[0].length} gap-1`}>
+            <div
+              className="inline-grid gap-1"
+              style={{
+                gridTemplateColumns: `repeat(${firstState.grid[0].length}, minmax(0, 2.5rem))`
+              }}
+            >
               {firstState.grid.map((row, y) =>
                 row.map((val, x) => {
                   const objectHere = firstState.objects.find((o) => o.x === x && o.y === y);
