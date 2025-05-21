@@ -18,6 +18,26 @@ const sampleTasks = [
             ],
             objects: [{ x: 0, y: 1, color: 3 }],
             action: "SelectCell (0,1)"
+          },
+          {
+            time: 1,
+            grid: [
+              [0, 3, 0],
+              [3, 3, 0],
+              [0, 0, 0]
+            ],
+            objects: [{ x: 1, y: 0, color: 3 }],
+            action: "SelectCell (1,0)"
+          },
+          {
+            time: 2,
+            grid: [
+              [0, 3, 0],
+              [3, 3, 3],
+              [0, 0, 0]
+            ],
+            objects: [{ x: 2, y: 1, color: 3 }],
+            action: "SelectCell (2,1)"
           }
         ]
       },
@@ -34,6 +54,26 @@ const sampleTasks = [
             ],
             objects: [{ x: 0, y: 0, color: 3 }],
             action: "SelectCell (0,0)"
+          },
+          {
+            time: 1,
+            grid: [
+              [3, 3, 3],
+              [0, 0, 0],
+              [0, 0, 0]
+            ],
+            objects: [{ x: 1, y: 0, color: 3 }],
+            action: "SelectCell (1,0)"
+          },
+          {
+            time: 2,
+            grid: [
+              [3, 3, 3],
+              [0, 3, 0],
+              [0, 0, 0]
+            ],
+            objects: [{ x: 1, y: 1, color: 3 }],
+            action: "SelectCell (1,1)"
           }
         ]
       },
@@ -50,6 +90,26 @@ const sampleTasks = [
             ],
             objects: [{ x: 1, y: 1, color: 3 }],
             action: "SelectCell (1,1)"
+          },
+          {
+            time: 1,
+            grid: [
+              [0, 3, 0],
+              [0, 3, 0],
+              [0, 0, 3]
+            ],
+            objects: [{ x: 1, y: 0, color: 3 }],
+            action: "SelectCell (1,0)"
+          },
+          {
+            time: 2,
+            grid: [
+              [0, 3, 0],
+              [3, 3, 0],
+              [0, 0, 3]
+            ],
+            objects: [{ x: 0, y: 1, color: 3 }],
+            action: "SelectCell (0,1)"
           }
         ]
       }
@@ -71,6 +131,26 @@ const sampleTasks = [
             ],
             objects: [{ x: 2, y: 0, color: 3 }],
             action: "SelectCell (2,0)"
+          },
+          {
+            time: 1,
+            grid: [
+              [0, 3, 3],
+              [0, 0, 0],
+              [0, 3, 0]
+            ],
+            objects: [{ x: 1, y: 0, color: 3 }],
+            action: "SelectCell (1,0)"
+          },
+          {
+            time: 2,
+            grid: [
+              [0, 3, 3],
+              [0, 0, 3],
+              [0, 3, 0]
+            ],
+            objects: [{ x: 2, y: 1, color: 3 }],
+            action: "SelectCell (2,1)"
           }
         ]
       },
@@ -87,6 +167,26 @@ const sampleTasks = [
             ],
             objects: [{ x: 0, y: 0, color: 3 }],
             action: "SelectCell (0,0)"
+          },
+          {
+            time: 1,
+            grid: [
+              [3, 0, 0],
+              [3, 0, 0],
+              [3, 0, 0]
+            ],
+            objects: [{ x: 0, y: 1, color: 3 }],
+            action: "SelectCell (0,1)"
+          },
+          {
+            time: 2,
+            grid: [
+              [3, 0, 0],
+              [3, 0, 0],
+              [3, 3, 0]
+            ],
+            objects: [{ x: 1, y: 2, color: 3 }],
+            action: "SelectCell (1,2)"
           }
         ]
       }
