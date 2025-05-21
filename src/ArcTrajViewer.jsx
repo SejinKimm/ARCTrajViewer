@@ -293,8 +293,10 @@ export default function ARCTrajViewer() {
               {currentState.grid.map((row, y) =>
                 row.map((val, x) => {
                   const objectHere = currentState.objects.find((o) => o.x === x && o.y === y);
+                  const isSelected = objectHere !== undefined;
                   const colorClass = colorMap[objectHere ? objectHere.color : val] || "bg-gray-300";
-                  return <div key={`${x}-${y}`} className={`w-10 h-10 ${colorClass} border`} />;
+                  const extraClass = isSelected ? "outline outline-2 outline-white" : "";
+                  return <div key={`${x}-${y}`} className={`w-10 h-10 ${colorClass} border ${extraClass}`} />;
                 })
               )}
             </div>
