@@ -122,7 +122,7 @@ export default function ArcTrajViewer() {
   return (
     <div className="flex min-h-screen w-screen font-sans">
       {/* 왼쪽 사이드바 */}
-      <div className="w-64 h-screen overflow-y-auto bg-gray-900 text-white p-4 flex flex-col">
+      <div className="w-96 h-screen overflow-y-auto bg-gray-900 text-white p-4 flex flex-col">
         <h2 className="text-lg font-semibold mb-2">📁 Tasks</h2>
         <ul className="space-y-1">
           {tasks.map((task) => (
