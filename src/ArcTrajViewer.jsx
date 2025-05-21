@@ -126,45 +126,47 @@ export default function ArcTrajViewer() {
         <h2 className="text-lg font-semibold mb-2">📁 Tasks</h2>
         <ul className="space-y-1">
           {tasks.map((task) => (
-            <li
-              key={task.id}
-              className={`cursor-pointer px-2 py-1 rounded hover:bg-gray-700 ${selectedTaskId === task.id ? "bg-gray-700" : ""}`}
-              onClick={() => {
-                if (selectedTaskId === task.id) {
-                  setSelectedTaskId(null);
-                  setSelectedLogId(null);
-                  setStep(0);
-                } else {
-                  setSelectedTaskId(task.id);
-                  setSelectedLogId(null);
-                  setStep(0);
-                }
-              }}
-            >
-              {task.id}
+            <li key={task.id} className="flex flex-col">
+              <div
+                className={`cursor-pointer px-2 py-1 rounded hover:bg-gray-700 ${
+                  selectedTaskId === task.id ? "bg-gray-700" : ""
+                }`}
+                onClick={() => {
+                  if (selectedTaskId === task.id) {
+                    setSelectedTaskId(null);
+                    setSelectedLogId(null);
+                    setStep(0);
+                  } else {
+                    setSelectedTaskId(task.id);
+                    setSelectedLogId(null);
+                    setStep(0);
+                  }
+                }}
+              >
+                {task.id}
+              </div>
+
+              {selectedTaskId === task.id && (
+                <ul className="ml-2 mt-1 space-y-1 border-l border-gray-700 pl-2 max-h-48 overflow-y-auto">
+                  {task.logs.map((log) => (
+                    <li
+                      key={log.logId}
+                      className={`cursor-pointer px-2 py-1 rounded hover:bg-gray-700 ${
+                        selectedLogId === log.logId ? "bg-gray-700" : ""
+                      }`}
+                      onClick={() => {
+                        setSelectedLogId(log.logId);
+                        setStep(0);
+                      }}
+                    >
+                      log #{log.logId} (score: {log.score})
+                    </li>
+                  ))}
+                </ul>
+              )}
             </li>
           ))}
         </ul>
-
-        {selectedTask && (
-          <div className="mt-4 max-h-64 overflow-y-auto border-t border-gray-700 pt-2">
-            <h2 className="text-lg font-semibold mb-2">📝 Logs</h2>
-            <ul className="space-y-1">
-              {selectedTask.logs.map((log) => (
-                <li
-                  key={log.logId}
-                  className={`cursor-pointer px-2 py-1 rounded hover:bg-gray-700 ${selectedLogId === log.logId ? "bg-gray-700" : ""}`}
-                  onClick={() => {
-                    setSelectedLogId(log.logId);
-                    setStep(0);
-                  }}
-                >
-                  log #{log.logId} (score: {log.score})
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
       </div>
 
       {/* 오른쪽 Trajectory Viewer */}
