@@ -12,11 +12,9 @@ const sampleTasks = [
           {
             time: 0,
             grid: [
-              [0, 0, 0, 1, 2],
-              [3, 3, 0, 4, 5],
-              [0, 0, 0, 6, 7],
-              [0, 0, 0, 8, 9],
-              [0, 0, 0, 8, 9],
+              [0, 0, 0],
+              [3, 3, 0],
+              [0, 0, 0]
             ],
             objects: [{ x: 0, y: 1, color: 3 }],
             action: "SelectCell (0,1)"
@@ -58,7 +56,7 @@ export default function ARCTrajViewer() {
       <div className="w-64 bg-gray-900 text-white p-4 flex flex-col">
         <div>
           <h2 className="text-lg font-semibold mb-2">📁 Tasks</h2>
-          <ul className="mb-6">
+          <ul className="mb-4">
             {sampleTasks.map((task) => (
               <li
                 key={task.id}
@@ -76,9 +74,7 @@ export default function ARCTrajViewer() {
               </li>
             ))}
           </ul>
-        </div>
 
-        <div className="mt-auto">
           <h2 className="text-lg font-semibold mb-2">📝 Logs</h2>
           <ul>
             {selectedTask?.logs.map((log) => (
@@ -97,13 +93,13 @@ export default function ARCTrajViewer() {
       </div>
 
       {/* 오른쪽 Trajectory Viewer */}
-      <div className="flex-1 bg-black text-white p-6 overflow-auto">
+      <div className="flex-1 bg-black text-white p-6 overflow-auto flex flex-col items-start">
         <h1 className="text-xl font-bold mb-4">Trajectory Viewer</h1>
         {firstState ? (
           <div>
             <p className="mb-2">First Step: {firstState.action}</p>
             <div
-              className="inline-grid gap-1"
+              className="grid gap-1"
               style={{
                 gridTemplateColumns: `repeat(${firstState.grid[0].length}, minmax(0, 2.5rem))`
               }}
