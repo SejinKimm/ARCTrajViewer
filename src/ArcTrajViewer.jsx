@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import Papa from "papaparse";
 
 const colorMap = {
@@ -38,7 +38,7 @@ export default function ArcTrajViewer() {
               objects: entry.object || [],
               action: `${entry.operation} (${entry.position?.x ?? ""},${entry.position?.y ?? ""})`
             }));
-          } catch (e) {
+          } catch{
             continue;
           }
 
@@ -57,7 +57,7 @@ export default function ArcTrajViewer() {
 
   const selectedTask = tasks.find((task) => task.id === selectedTaskId);
   const selectedLog = selectedTask?.logs.find((log) => log.logId === selectedLogId);
-  const trajectory = selectedLog?.trajectory || [];
+  const trajectory = useMemo(() => selectedLog?.trajectory || [], [selectedLog]);
   const currentState = trajectory[step];
 
   useEffect(() => {

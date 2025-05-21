@@ -1,10 +1,10 @@
 import React from 'react';
-import ARCTrajViewer from './ArcTrajViewer';
+import ArcTrajViewer from './ArcTrajViewer';
 
 function App() {
   return (
     <div className="min-h-screen bg-black text-white">
-      <ARCTrajViewer />
+      <ArcTrajViewer />
     </div>
   );
 }
