@@ -29,7 +29,6 @@ const HARDCODED_TASK_IDS = [
   "f25ffba3", "f2829549", "f35d900a", "f5b8619d", "f76d97a5", "f8a8fe49", "f8b3ba0a", "f8c80d96", "f8ff0b80", "f9012d9b", "fafffa47", "fcb5c309", "fcc82909", "feca6190", "ff28f65a", "ff805c23"
 ];
 
-
 const CSV_FILES = [
   "/ARCTraj_with_scores_01.csv",
   "/ARCTraj_with_scores_02.csv",
@@ -122,7 +121,7 @@ export default function ArcTrajViewer() {
   }, [trajectory]);
 
   return (
-    <div className="flex flex-col min-h-full w-full font-sans">
+    <div className="flex flex-col min-h-screen w-screen font-sans overflow-x-hidden">
       {/* 상단 헤더 */}
       <div className="bg-gray-900 text-white text-center py-6 shadow-md">
         <h1 className="text-4xl font-black mb-2">ARCTraj</h1>
@@ -144,7 +143,7 @@ export default function ArcTrajViewer() {
             rel="noopener noreferrer"
             className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded"
           >
-            Paper
+            Paper (under review)
           </a>
         </div>
       </div>
@@ -152,7 +151,7 @@ export default function ArcTrajViewer() {
       {/* 본문 레이아웃 */}
       <div className="flex flex-grow">
         {/* 왼쪽 사이드바 */}
-        <div className="w-[20rem] h-screen overflow-y-auto bg-gray-900 text-white p-4 flex flex-col">
+        <div className="w-[28rem] h-screen overflow-y-auto bg-gray-900 text-white p-4 flex flex-col">
           <h2 className="text-lg font-semibold mb-2">📁 Tasks</h2>
           {loading ? (
             <p className="text-gray-400">Loading tasks...</p>
@@ -180,7 +179,7 @@ export default function ArcTrajViewer() {
                   </div>
 
                   {selectedTaskId === task.id && (
-                    <ul className="ml-2 mt-1 space-y-1 border-l border-gray-700 pl-2 max-h-64 overflow-y-auto">
+                    <ul className="ml-2 mt-1 space-y-1 border-l border-gray-700 pl-2 max-h-48 overflow-y-auto">
                       {task.logs.map((log) => (
                         <li
                           key={log.logId}
@@ -227,7 +226,7 @@ export default function ArcTrajViewer() {
               </div>
             </div>
           ) : (
-            <p className="text-gray-400">Select Task and Log.</p>
+            <p className="text-gray-400">No trajectory to display.</p>
           )}
         </div>
       </div>
