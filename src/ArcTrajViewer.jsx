@@ -59,12 +59,19 @@ export default function ArcTrajViewer() {
       .then(fileTexts => {
         const allRows = [];
 
-        for (const text of fileTexts) {
+        for (const [index, text] of fileTexts.entries()) {
           const parsed = Papa.parse(text, { header: true });
-          allRows.push(...parsed.data.filter(r => r.logId && r.taskId && r.actionSequence));
-        }
+          console.log(`📄 File #${index + 1} parsed:`, parsed);
 
-        console.log("🔍 First few rows:", allRows.slice(0, 3));
+          if (!parsed.data || parsed.data.length === 0) {
+            console.warn(`⚠️ File #${index + 1} has no data.`);
+            continue;
+          }
+
+          const validRows = parsed.data.filter(r => r.logId && r.taskId && r.actionSequence);
+          console.log(`✅ Valid rows in file #${index + 1}:`, validRows.length);
+          allRows.push(...validRows);
+        }
 
         const grouped = {};
         for (const row of allRows) {
