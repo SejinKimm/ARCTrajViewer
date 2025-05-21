@@ -54,6 +54,7 @@ export default function ArcTrajViewer() {
   const [selectedTaskId, setSelectedTaskId] = useState(null);
   const [selectedLogId, setSelectedLogId] = useState(null);
   const [step, setStep] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     Promise.all(CSV_FILES.map(path => fetch(path).then(res => res.text())))
@@ -98,6 +99,7 @@ export default function ArcTrajViewer() {
         });
 
         setTasks(taskList);
+        setLoading(false);
       });
   }, []);
 
@@ -125,7 +127,7 @@ export default function ArcTrajViewer() {
       <div className="bg-gray-900 text-white text-center py-6 shadow-md">
         <h1 className="text-4xl font-black mb-2">ARCTraj</h1>
         <p className="text-xl text-gray-300 mb-4">
-          Human Reasoning Trajectories Collected from Interactive Sessions on the Abstraction and Reasoning Corpus
+          Human Reasoning Trajectories Collected From Interactive Sessions On The Abstraction and Reasoning Corpus
         </p>
         <div className="flex justify-center gap-4">
           <a
@@ -135,6 +137,14 @@ export default function ArcTrajViewer() {
             className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded"
           >
             Hugging Face
+          </a>
+          <a
+            href="https://github.com/SejinKimm/ARCTrajViewer"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded"
+          >
+            GitHub
           </a>
           <a
             href="https://openreview.net/forum?id=AUoA3ztOLf"
@@ -152,49 +162,53 @@ export default function ArcTrajViewer() {
         {/* 왼쪽 사이드바 */}
         <div className="w-[20rem] h-screen overflow-y-auto bg-gray-900 text-white p-4 flex flex-col">
           <h2 className="text-lg font-semibold mb-2">📁 Tasks</h2>
-          <ul className="space-y-1">
-            {tasks.map((task) => (
-              <li key={task.id} className="flex flex-col">
-                <div
-                  className={`cursor-pointer px-2 py-1 rounded hover:bg-gray-700 ${
-                    selectedTaskId === task.id ? "bg-gray-700" : ""
-                  }`}
-                  onClick={() => {
-                    if (selectedTaskId === task.id) {
-                      setSelectedTaskId(null);
-                      setSelectedLogId(null);
-                      setStep(0);
-                    } else {
-                      setSelectedTaskId(task.id);
-                      setSelectedLogId(null);
-                      setStep(0);
-                    }
-                  }}
-                >
-                  {task.id}
-                </div>
+          {loading ? (
+            <p className="text-gray-400">Loading tasks...</p>
+          ) : (
+            <ul className="space-y-1">
+              {tasks.map((task) => (
+                <li key={task.id} className="flex flex-col">
+                  <div
+                    className={`cursor-pointer px-2 py-1 rounded hover:bg-gray-700 ${
+                      selectedTaskId === task.id ? "bg-gray-700" : ""
+                    }`}
+                    onClick={() => {
+                      if (selectedTaskId === task.id) {
+                        setSelectedTaskId(null);
+                        setSelectedLogId(null);
+                        setStep(0);
+                      } else {
+                        setSelectedTaskId(task.id);
+                        setSelectedLogId(null);
+                        setStep(0);
+                      }
+                    }}
+                  >
+                    {task.id}
+                  </div>
 
-                {selectedTaskId === task.id && (
-                  <ul className="ml-2 mt-1 space-y-1 border-l border-gray-700 pl-2 max-h-64 overflow-y-auto">
-                    {task.logs.map((log) => (
-                      <li
-                        key={log.logId}
-                        className={`cursor-pointer px-2 py-1 rounded hover:bg-gray-700 ${
-                          selectedLogId === log.logId ? "bg-gray-700" : ""
-                        }`}
-                        onClick={() => {
-                          setSelectedLogId(log.logId);
-                          setStep(0);
-                        }}
-                      >
-                        log #{log.logId} (score: {log.score})
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </li>
-            ))}
-          </ul>
+                  {selectedTaskId === task.id && (
+                    <ul className="ml-2 mt-1 space-y-1 border-l border-gray-700 pl-2 max-h-64 overflow-y-auto">
+                      {task.logs.map((log) => (
+                        <li
+                          key={log.logId}
+                          className={`cursor-pointer px-2 py-1 rounded hover:bg-gray-700 ${
+                            selectedLogId === log.logId ? "bg-gray-700" : ""
+                          }`}
+                          onClick={() => {
+                            setSelectedLogId(log.logId);
+                            setStep(0);
+                          }}
+                        >
+                          log #{log.logId} (score: {log.score})
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
 
         {/* 오른쪽 Trajectory Viewer */}
