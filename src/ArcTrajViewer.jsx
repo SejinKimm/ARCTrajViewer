@@ -194,6 +194,19 @@ const sampleTasks = [
   }
 ];
 
+const colorMap = {
+  0: "bg-black",
+  1: "bg-blue-500",
+  2: "bg-red-500",
+  3: "bg-green-500",
+  4: "bg-yellow-400",
+  5: "bg-gray-400",
+  6: "bg-pink-500",
+  7: "bg-orange-500",
+  8: "bg-sky-300",
+  9: "bg-rose-800"
+};
+
 export default function ARCTrajViewer() {
   const [selectedTaskId, setSelectedTaskId] = useState(null);
   const [selectedLogId, setSelectedLogId] = useState(null);
