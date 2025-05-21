@@ -55,7 +55,6 @@ export default function ArcTrajViewer() {
         const parsed = Papa.parse(text, { header: true });
         const rows = parsed.data.filter(r => r.logId && r.taskId && r.actionSequence);
 
-        // taskId 기준으로 로그들을 그룹화
         const grouped = {};
         for (const row of rows) {
           const { logId, taskId, score, actionSequence } = row;
@@ -67,7 +66,7 @@ export default function ArcTrajViewer() {
               objects: entry.object || [],
               action: `${entry.operation} (${entry.position?.x ?? ""},${entry.position?.y ?? ""})`
             }));
-          } catch{
+          } catch (err) {
             console.warn("❌ Failed to parse logId:", row.logId, "→", row.actionSequence?.slice(0, 100));
             continue;
           }
@@ -80,7 +79,10 @@ export default function ArcTrajViewer() {
           });
         }
 
-        // HARDCODED_TASK_IDS에 따라 정렬 + 없는 경우 빈 로그라도 포함
+        // 🔍 그룹핑 결과 콘솔 출력
+        console.log("✅ Grouped Logs by taskId:", grouped);
+        console.log("총 Task 수:", Object.keys(grouped).length);
+
         const taskList = HARDCODED_TASK_IDS.map((taskId) => {
           const logs = grouped[taskId] || [];
           logs.sort((a, b) => b.score - a.score);
@@ -90,7 +92,6 @@ export default function ArcTrajViewer() {
         setTasks(taskList);
       });
   }, []);
-
 
   const selectedTask = tasks.find((task) => task.id === selectedTaskId);
   const selectedLog = selectedTask?.logs.find((log) => log.logId === selectedLogId);
