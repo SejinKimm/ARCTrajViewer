@@ -150,7 +150,7 @@ export default function ArcTrajViewer() {
       {/* 본문 레이아웃 */}
       <div className="flex flex-grow">
         {/* 왼쪽 사이드바 */}
-        <div className="w-[24rem] h-screen overflow-y-auto bg-gray-900 text-white p-4 flex flex-col">
+        <div className="w-[20rem] h-screen overflow-y-auto bg-gray-900 text-white p-4 flex flex-col">
           <h2 className="text-lg font-semibold mb-2">📁 Tasks</h2>
           <ul className="space-y-1">
             {tasks.map((task) => (
