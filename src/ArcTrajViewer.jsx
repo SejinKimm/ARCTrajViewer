@@ -67,7 +67,7 @@ export default function ArcTrajViewer() {
               objects: entry.object || [],
               action: `${entry.operation} (${entry.position?.x ?? ""},${entry.position?.y ?? ""})`
             }));
-          } catch (err) {
+          } catch{
             console.warn("❌ Failed to parse logId:", row.logId, "→", row.actionSequence?.slice(0, 100));
             continue;
           }
