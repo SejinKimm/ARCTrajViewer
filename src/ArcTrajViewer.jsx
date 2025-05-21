@@ -57,7 +57,13 @@ export default function ArcTrajViewer() {
 
         const grouped = {};
         for (const row of rows) {
-          const { logId, taskId, score, actionSequence } = row;
+          const taskId = row.taskId?.trim();
+          const logId = Number(row.logId);
+          const score = Number(row.score);
+          const actionSequence = row.actionSequence;
+
+          if (!taskId || isNaN(logId) || !actionSequence) continue;
+
           let trajectory;
           try {
             trajectory = JSON.parse(actionSequence).map((entry, idx) => ({
@@ -66,14 +72,15 @@ export default function ArcTrajViewer() {
               objects: entry.object || [],
               action: `${entry.operation} (${entry.position?.x ?? ""},${entry.position?.y ?? ""})`
             }));
-          } catch{
-            console.warn("❌ Failed to parse logId:", row.logId, "→", row.actionSequence?.slice(0, 100));
+          } catch {
+            console.warn("❌ Failed to parse logId:", row.logId);
             continue;
           }
 
           if (!grouped[taskId]) grouped[taskId] = { id: taskId, logs: [] };
-          grouped[taskId].logs.push({ logId: Number(logId), score: Number(score), trajectory });
+          grouped[taskId].logs.push({ logId, score, trajectory });
         }
+
 
         const taskList = Object.values(grouped).map(task => {
           task.logs.sort((a, b) => b.score - a.score);
