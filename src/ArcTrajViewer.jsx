@@ -1,198 +1,5 @@
 import React, { useState, useEffect } from "react";
-
-// 샘플 데이터 구조
-const sampleTasks = [
-  {
-    id: "2204b7a8",
-    logs: [
-      {
-        logId: 1,
-        score: 34524,
-        trajectory: [
-          {
-            time: 0,
-            grid: [
-              [0, 0, 0],
-              [3, 3, 0],
-              [0, 0, 0]
-            ],
-            objects: [{ x: 0, y: 1, color: 3 }],
-            action: "SelectCell (0,1)"
-          },
-          {
-            time: 1,
-            grid: [
-              [0, 3, 0],
-              [3, 3, 0],
-              [0, 0, 0]
-            ],
-            objects: [{ x: 1, y: 0, color: 3 }],
-            action: "SelectCell (1,0)"
-          },
-          {
-            time: 2,
-            grid: [
-              [0, 3, 0],
-              [3, 3, 3],
-              [0, 0, 0]
-            ],
-            objects: [{ x: 2, y: 1, color: 3 }],
-            action: "SelectCell (2,1)"
-          }
-        ]
-      },
-      {
-        logId: 3,
-        score: 78978,
-        trajectory: [
-          {
-            time: 0,
-            grid: [
-              [3, 0, 3],
-              [0, 0, 0],
-              [0, 0, 0]
-            ],
-            objects: [{ x: 0, y: 0, color: 3 }],
-            action: "SelectCell (0,0)"
-          },
-          {
-            time: 1,
-            grid: [
-              [3, 3, 3],
-              [0, 0, 0],
-              [0, 0, 0]
-            ],
-            objects: [{ x: 1, y: 0, color: 3 }],
-            action: "SelectCell (1,0)"
-          },
-          {
-            time: 2,
-            grid: [
-              [3, 3, 3],
-              [0, 3, 0],
-              [0, 0, 0]
-            ],
-            objects: [{ x: 1, y: 1, color: 3 }],
-            action: "SelectCell (1,1)"
-          }
-        ]
-      },
-      {
-        logId: 4,
-        score: 40001,
-        trajectory: [
-          {
-            time: 0,
-            grid: [
-              [0, 0, 0],
-              [0, 3, 0],
-              [0, 0, 3]
-            ],
-            objects: [{ x: 1, y: 1, color: 3 }],
-            action: "SelectCell (1,1)"
-          },
-          {
-            time: 1,
-            grid: [
-              [0, 3, 0],
-              [0, 3, 0],
-              [0, 0, 3]
-            ],
-            objects: [{ x: 1, y: 0, color: 3 }],
-            action: "SelectCell (1,0)"
-          },
-          {
-            time: 2,
-            grid: [
-              [0, 3, 0],
-              [3, 3, 0],
-              [0, 0, 3]
-            ],
-            objects: [{ x: 0, y: 1, color: 3 }],
-            action: "SelectCell (0,1)"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    id: "d3f4ac12",
-    logs: [
-      {
-        logId: 2,
-        score: 22222,
-        trajectory: [
-          {
-            time: 0,
-            grid: [
-              [0, 0, 3],
-              [0, 0, 0],
-              [0, 3, 0]
-            ],
-            objects: [{ x: 2, y: 0, color: 3 }],
-            action: "SelectCell (2,0)"
-          },
-          {
-            time: 1,
-            grid: [
-              [0, 3, 3],
-              [0, 0, 0],
-              [0, 3, 0]
-            ],
-            objects: [{ x: 1, y: 0, color: 3 }],
-            action: "SelectCell (1,0)"
-          },
-          {
-            time: 2,
-            grid: [
-              [0, 3, 3],
-              [0, 0, 3],
-              [0, 3, 0]
-            ],
-            objects: [{ x: 2, y: 1, color: 3 }],
-            action: "SelectCell (2,1)"
-          }
-        ]
-      },
-      {
-        logId: 5,
-        score: 88776,
-        trajectory: [
-          {
-            time: 0,
-            grid: [
-              [3, 0, 0],
-              [0, 0, 0],
-              [3, 0, 0]
-            ],
-            objects: [{ x: 0, y: 0, color: 3 }],
-            action: "SelectCell (0,0)"
-          },
-          {
-            time: 1,
-            grid: [
-              [3, 0, 0],
-              [3, 0, 0],
-              [3, 0, 0]
-            ],
-            objects: [{ x: 0, y: 1, color: 3 }],
-            action: "SelectCell (0,1)"
-          },
-          {
-            time: 2,
-            grid: [
-              [3, 0, 0],
-              [3, 0, 0],
-              [3, 3, 0]
-            ],
-            objects: [{ x: 1, y: 2, color: 3 }],
-            action: "SelectCell (1,2)"
-          }
-        ]
-      }
-    ]
-  }
-];
+import Papa from "papaparse";
 
 const colorMap = {
   0: "bg-black",
@@ -208,11 +15,47 @@ const colorMap = {
 };
 
 export default function ARCTrajViewer() {
+  const [tasks, setTasks] = useState([]);
   const [selectedTaskId, setSelectedTaskId] = useState(null);
   const [selectedLogId, setSelectedLogId] = useState(null);
   const [step, setStep] = useState(0);
 
-  const selectedTask = sampleTasks.find((task) => task.id === selectedTaskId);
+  useEffect(() => {
+    fetch("/ARCTraj_with_scores.csv")
+      .then(res => res.text())
+      .then(text => {
+        const parsed = Papa.parse(text, { header: true });
+        const rows = parsed.data.filter(r => r.logId && r.taskId && r.actionSequence);
+
+        const grouped = {};
+        for (const row of rows) {
+          const { logId, taskId, score, actionSequence } = row;
+          let trajectory;
+          try {
+            trajectory = JSON.parse(actionSequence).map((entry, idx) => ({
+              time: idx,
+              grid: entry.grid,
+              objects: entry.object || [],
+              action: `${entry.operation} (${entry.position?.x ?? ""},${entry.position?.y ?? ""})`
+            }));
+          } catch (e) {
+            continue;
+          }
+
+          if (!grouped[taskId]) grouped[taskId] = { id: taskId, logs: [] };
+          grouped[taskId].logs.push({ logId: Number(logId), score: Number(score), trajectory });
+        }
+
+        const taskList = Object.values(grouped).map(task => {
+          task.logs.sort((a, b) => b.score - a.score);
+          return task;
+        });
+
+        setTasks(taskList);
+      });
+  }, []);
+
+  const selectedTask = tasks.find((task) => task.id === selectedTaskId);
   const selectedLog = selectedTask?.logs.find((log) => log.logId === selectedLogId);
   const trajectory = selectedLog?.trajectory || [];
   const currentState = trajectory[step];
@@ -237,7 +80,7 @@ export default function ARCTrajViewer() {
         <div>
           <h2 className="text-lg font-semibold mb-2">📁 Tasks</h2>
           <ul className="mb-4">
-            {sampleTasks.map((task) => (
+            {tasks.map((task) => (
               <li
                 key={task.id}
                 className={`cursor-pointer px-2 py-1 rounded hover:bg-gray-700 ${
@@ -258,7 +101,7 @@ export default function ARCTrajViewer() {
             <>
               <h2 className="text-lg font-semibold mb-2">📝 Logs</h2>
               <ul>
-                {[...selectedTask.logs].sort((a, b) => b.score - a.score).map((log) => (
+                {selectedTask.logs.map((log) => (
                   <li
                     key={log.logId}
                     className={`cursor-pointer px-2 py-1 rounded hover:bg-gray-700 ${
