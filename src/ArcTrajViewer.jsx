@@ -126,8 +126,11 @@ export default function ArcTrajViewer() {
 
     const handleTouchEnd = (e) => {
       touchEndX = e.changedTouches[0].screenX;
-      if (touchEndX < touchStartX - 50) {
+      const delta = touchEndX - touchStartX;
+      if (delta < -50) {
         setStep(prev => Math.min(prev + 1, trajectory.length - 1));
+      } else if (delta > 50) {
+        setStep(prev => Math.max(prev - 1, 0));
       }
     };
 
@@ -141,7 +144,7 @@ export default function ArcTrajViewer() {
       window.removeEventListener("touchend", handleTouchEnd);
     };
   }, [trajectory]);
-  
+
   return (
     <div className="flex flex-col min-h-screen w-[calc(100vw-1rem)] overflow-hidden font-sans">
       {/* 상단 헤더 */}
