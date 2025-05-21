@@ -122,7 +122,7 @@ export default function ArcTrajViewer() {
   }, [trajectory]);
 
   return (
-    <div className="flex flex-col min-h-screen w-full font-sans overflow-x-hidden">
+    <div className="flex flex-col min-h-screen w-screen max-w-full overflow-x-hidden font-sans">
       {/* 상단 헤더 */}
       <div className="bg-gray-900 text-white text-center py-6 shadow-md">
         <h1 className="text-4xl font-black mb-2">ARCTraj</h1>
