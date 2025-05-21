@@ -125,7 +125,7 @@ export default function ArcTrajViewer() {
       <div className="bg-gray-900 text-white text-center py-6 shadow-md">
         <h1 className="text-4xl font-black mb-2">ARCTraj</h1>
         <p className="text-xl text-gray-300 mb-4">
-          Human Reasoning Trajectories Collected From Interactive Sessions On The Abstraction and Reasoning Corpus
+          Human Reasoning Trajectories Collected from Interactive Sessions on the Abstraction and Reasoning Corpus
         </p>
         <div className="flex justify-center gap-4">
           <a
