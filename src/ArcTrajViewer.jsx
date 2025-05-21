@@ -55,15 +55,10 @@ export default function ArcTrajViewer() {
         const parsed = Papa.parse(text, { header: true });
         const rows = parsed.data.filter(r => r.logId && r.taskId && r.actionSequence);
 
+        // taskId 기준으로 로그들을 그룹화
         const grouped = {};
         for (const row of rows) {
-          const taskId = row.taskId?.trim();
-          const logId = Number(row.logId);
-          const score = Number(row.score);
-          const actionSequence = row.actionSequence;
-
-          if (!taskId || isNaN(logId) || !actionSequence) continue;
-
+          const { logId, taskId, score, actionSequence } = row;
           let trajectory;
           try {
             trajectory = JSON.parse(actionSequence).map((entry, idx) => ({
@@ -72,24 +67,30 @@ export default function ArcTrajViewer() {
               objects: entry.object || [],
               action: `${entry.operation} (${entry.position?.x ?? ""},${entry.position?.y ?? ""})`
             }));
-          } catch {
-            console.warn("❌ Failed to parse logId:", row.logId);
+          } catch (err) {
+            console.warn("❌ Failed to parse logId:", row.logId, "→", row.actionSequence?.slice(0, 100));
             continue;
           }
 
-          if (!grouped[taskId]) grouped[taskId] = { id: taskId, logs: [] };
-          grouped[taskId].logs.push({ logId, score, trajectory });
+          if (!grouped[taskId]) grouped[taskId] = [];
+          grouped[taskId].push({
+            logId: Number(logId),
+            score: Number(score),
+            trajectory
+          });
         }
 
-
-        const taskList = Object.values(grouped).map(task => {
-          task.logs.sort((a, b) => b.score - a.score);
-          return task;
+        // HARDCODED_TASK_IDS에 따라 정렬 + 없는 경우 빈 로그라도 포함
+        const taskList = HARDCODED_TASK_IDS.map((taskId) => {
+          const logs = grouped[taskId] || [];
+          logs.sort((a, b) => b.score - a.score);
+          return { id: taskId, logs };
         });
 
         setTasks(taskList);
       });
   }, []);
+
 
   const selectedTask = tasks.find((task) => task.id === selectedTaskId);
   const selectedLog = selectedTask?.logs.find((log) => log.logId === selectedLogId);
