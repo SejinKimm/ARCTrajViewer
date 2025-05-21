@@ -116,10 +116,32 @@ export default function ArcTrajViewer() {
         setStep(prev => Math.max(prev - 1, 0));
       }
     };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [trajectory]);
 
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    const handleTouchStart = (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    };
+
+    const handleTouchEnd = (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      if (touchEndX < touchStartX - 50) {
+        setStep(prev => Math.min(prev + 1, trajectory.length - 1));
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("touchstart", handleTouchStart);
+    window.addEventListener("touchend", handleTouchEnd);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("touchstart", handleTouchStart);
+      window.removeEventListener("touchend", handleTouchEnd);
+    };
+  }, [trajectory]);
+  
   return (
     <div className="flex flex-col min-h-screen w-[calc(100vw-1rem)] overflow-hidden font-sans">
       {/* 상단 헤더 */}
