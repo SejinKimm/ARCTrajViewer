@@ -13,7 +13,7 @@ const colorMap = {
   8: "bg-sky-300",
   9: "bg-rose-800"
 };
-
+  
 export default function ARCTrajViewer() {
   const [tasks, setTasks] = useState([]);
   const [selectedTaskId, setSelectedTaskId] = useState(null);

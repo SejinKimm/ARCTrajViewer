@@ -1,5 +1,5 @@
 import React from 'react';
-import ARCTrajViewer from './ArcTrajViewer'; // 우리가 만든 컴포넌트 import
+import ARCTrajViewer from './ARCTrajViewer'; // 우리가 만든 컴포넌트 import
 
 function App() {
   return (
