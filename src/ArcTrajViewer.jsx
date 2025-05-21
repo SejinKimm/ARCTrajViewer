@@ -29,6 +29,7 @@ const HARDCODED_TASK_IDS = [
   "f25ffba3", "f2829549", "f35d900a", "f5b8619d", "f76d97a5", "f8a8fe49", "f8b3ba0a", "f8c80d96", "f8ff0b80", "f9012d9b", "fafffa47", "fcb5c309", "fcc82909", "feca6190", "ff28f65a", "ff805c23"
 ];
 
+
 const CSV_FILES = [
   "/ARCTraj_with_scores_01.csv",
   "/ARCTraj_with_scores_02.csv",
@@ -59,18 +60,9 @@ export default function ArcTrajViewer() {
       .then(fileTexts => {
         const allRows = [];
 
-        for (const [index, text] of fileTexts.entries()) {
+        for (const text of fileTexts) {
           const parsed = Papa.parse(text, { header: true });
-          console.log(`📄 File #${index + 1} parsed:`, parsed);
-
-          if (!parsed.data || parsed.data.length === 0) {
-            console.warn(`⚠️ File #${index + 1} has no data.`);
-            continue;
-          }
-
-          const validRows = parsed.data.filter(r => r.logId && r.taskId && r.actionSequence);
-          console.log(`✅ Valid rows in file #${index + 1}:`, validRows.length);
-          allRows.push(...validRows);
+          allRows.push(...parsed.data.filter(r => r.logId && r.taskId && r.actionSequence));
         }
 
         const grouped = {};
@@ -88,7 +80,6 @@ export default function ArcTrajViewer() {
               action: `${entry.operation} (${entry.position?.x ?? ""},${entry.position?.y ?? ""})`
             }));
           } catch {
-            console.warn("❌ Failed to parse logId:", row.logId, "→", row.actionSequence?.slice(0, 100));
             continue;
           }
 
@@ -100,19 +91,18 @@ export default function ArcTrajViewer() {
           });
         }
 
-        const taskList = HARDCODED_TASK_IDS.map((taskId) => {
+        const taskList = HARDCODED_TASK_IDS.map(taskId => {
           const logs = grouped[taskId] || [];
           logs.sort((a, b) => b.score - a.score);
           return { id: taskId, logs };
         });
 
-        console.log("✅ Parsed Task Count:", taskList.length);
         setTasks(taskList);
       });
   }, []);
 
-  const selectedTask = tasks.find((task) => task.id === selectedTaskId);
-  const selectedLog = selectedTask?.logs.find((log) => log.logId === selectedLogId);
+  const selectedTask = tasks.find(task => task.id === selectedTaskId);
+  const selectedLog = selectedTask?.logs.find(log => log.logId === selectedLogId);
   const trajectory = useMemo(() => selectedLog?.trajectory || [], [selectedLog]);
   const currentState = trajectory[step];
 
@@ -120,9 +110,9 @@ export default function ArcTrajViewer() {
     const handleKeyDown = (e) => {
       if (!trajectory.length) return;
       if (e.key === "ArrowRight") {
-        setStep((prev) => Math.min(prev + 1, trajectory.length - 1));
+        setStep(prev => Math.min(prev + 1, trajectory.length - 1));
       } else if (e.key === "ArrowLeft") {
-        setStep((prev) => Math.max(prev - 1, 0));
+        setStep(prev => Math.max(prev - 1, 0));
       }
     };
     window.addEventListener("keydown", handleKeyDown);
@@ -191,7 +181,7 @@ export default function ArcTrajViewer() {
             >
               {currentState.grid.map((row, y) =>
                 row.map((val, x) => {
-                  const objectHere = currentState.objects.find((o) => o.x === x && o.y === y);
+                  const objectHere = currentState.objects.find(o => o.x === x && o.y === y);
                   const isSelected = objectHere !== undefined;
                   const colorClass = colorMap[objectHere ? objectHere.color : val] || "bg-gray-300";
                   const extraClass = isSelected ? "outline outline-2 outline-white" : "";
