@@ -29,6 +29,12 @@ const HARDCODED_TASK_IDS = [
   "f25ffba3", "f2829549", "f35d900a", "f5b8619d", "f76d97a5", "f8a8fe49", "f8b3ba0a", "f8c80d96", "f8ff0b80", "f9012d9b", "fafffa47", "fcb5c309", "fcc82909", "feca6190", "ff28f65a", "ff805c23"
 ];
 
+const CSV_FILES = [
+  "/ARCTraj_with_scores_01.csv", 
+  "/ARCTraj_with_scores_02.csv", 
+  "/ARCTraj_with_scores_03.csv"
+];
+
 const colorMap = {
   0: "bg-black",
   1: "bg-blue-500",
@@ -49,16 +55,19 @@ export default function ArcTrajViewer() {
   const [step, setStep] = useState(0);
 
   useEffect(() => {
-    fetch("/ARCTraj_with_scores.csv")
-      .then(res => res.text())
-      .then(text => {
-        const parsed = Papa.parse(text, {header: true, skipEmptyLines: true, dynamicTyping: true});
-        const rows = parsed.data.filter(r => r.logId && r.taskId && r.actionSequence);
+    Promise.all(CSV_FILES.map(path => fetch(path).then(res => res.text())))
+      .then(fileTexts => {
+        const allRows = [];
 
-        console.log("First few taskIds from CSV:", rows.slice(0, 3).map(r => r.taskId));
+        for (const text of fileTexts) {
+          const parsed = Papa.parse(text, { header: true });
+          allRows.push(...parsed.data.filter(r => r.logId && r.taskId && r.actionSequence));
+        }
+
+        console.log("🔍 First few rows:", allRows.slice(0, 3));
 
         const grouped = {};
-        for (const row of rows) {
+        for (const row of allRows) {
           const rawTaskId = row.taskId?.trim();
           if (!HARDCODED_TASK_IDS.includes(rawTaskId)) continue;
 
@@ -90,9 +99,6 @@ export default function ArcTrajViewer() {
           return { id: taskId, logs };
         });
 
-        console.log("Parsed CSV Headers:", parsed.meta.fields);
-        console.log("Example row:", parsed.data[0]);
-        console.log("Parsed CSV Headers:", Object.keys(parsed.data[0] || {}));
         console.log("✅ Parsed Task Count:", taskList.length);
         setTasks(taskList);
       });
