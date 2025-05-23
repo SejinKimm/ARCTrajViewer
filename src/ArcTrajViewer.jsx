@@ -179,7 +179,7 @@ export default function ArcTrajViewer() {
       <div className="flex flex-grow w-full">
         {/* 왼쪽 사이드바 */}
         <div className="w-[28rem] h-screen overflow-y-auto bg-gray-900 text-white p-4 flex flex-col">
-          <h2 className="text-xl font-bold mb-4">📁 Tasks</h2>
+          <h2 className="text-xl font-bold mb-4 sticky top-0 bg-gray-900 z-10 py-2">📁 Tasks</h2>
           {loading ? (
             <p className="text-gray-400">Loading tasks...</p>
           ) : (
