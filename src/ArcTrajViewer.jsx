@@ -167,9 +167,9 @@ export default function ArcTrajViewer() {
             href="./ARCTraj_paper.pdf"
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded"
+            className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded flex items-center gap-2"
           >
-            <img src={"./pdf-logo.svg"} alt="PDF" className="w-5 h-5" />
+            <img src="./pdf-logo.svg" alt="PDF" className="w-5 h-5" />
             Paper
           </a>
         </div>
