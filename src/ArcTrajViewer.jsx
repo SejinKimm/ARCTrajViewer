@@ -160,7 +160,7 @@ export default function ArcTrajViewer() {
             rel="noopener noreferrer"
             className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded flex items-center gap-2"
           >
-            <img src={hf-logo} alt="HF" className="w-5 h-5" />
+            <img src="./hf-logo.svg" alt="HF" className="w-5 h-5" />
             Hugging Face
           </a>
           <a
@@ -169,7 +169,7 @@ export default function ArcTrajViewer() {
             rel="noopener noreferrer"
             className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded"
           >
-            <img src={pdf-logo} alt="PDF" className="w-5 h-5" />
+            <img src={"./pdf-logo.svg"} alt="PDF" className="w-5 h-5" />
             Paper
           </a>
         </div>
