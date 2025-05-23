@@ -180,11 +180,13 @@ export default function ArcTrajViewer() {
       <div className="flex flex-grow w-full">
         {/* 왼쪽 사이드바 */}
         <div className="w-[28rem] h-[calc(100vh-12rem)] overflow-y-auto bg-gray-900 text-white p-4 flex flex-col">
-          <h2 className="text-lg font-semibold mb-2 sticky top-0 z-10 bg-gray-900 py-2">📁 Tasks</h2>
+          <div className="sticky top-0 z-10 bg-gray-900 px-4 py-3">
+            <h2 className="text-lg font-semibold">📁 Tasks</h2>
+          </div>
           {loading ? (
             <p className="text-gray-400">Loading tasks...</p>
           ) : (
-            <ul className="space-y-1">
+              <ul className="px-4 space-y-1">
               {tasks.map((task) => (
                 <li key={task.id} className="flex flex-col">
                   <div
