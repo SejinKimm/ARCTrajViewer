@@ -163,7 +163,7 @@ export default function ArcTrajViewer() {
             Hugging Face
           </a>
           <a
-            href="https://openreview.net/forum?id=AUoA3ztOLf"
+            href="./ARCTraj_paper.pdf"
             target="_blank"
             rel="noopener noreferrer"
             className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded"
