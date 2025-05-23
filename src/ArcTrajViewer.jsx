@@ -233,7 +233,7 @@ export default function ArcTrajViewer() {
         </div>
 
         {/* 오른쪽 Trajectory Viewer */}
-        <div className="flex-grow bg-black text-white p-6 flex flex-col items-start">
+        <div className="flex-grow bg-black text-white pt-3 pr-6 pb-6 pl-6 flex flex-col items-start">
           <h1 className="text-xl font-bold mb-4">🔍 Trajectory Viewer</h1>
           {currentState ? (
             <div>
