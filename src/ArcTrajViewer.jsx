@@ -147,7 +147,7 @@ export default function ArcTrajViewer() {
 
   return (
     //<div className="flex flex-col min-h-screen w-[calc(100vw-1rem)] overflow-hidden font-sans">
-    <div className="flex flex-col min-h-[calc(100vh-3rem)] w-[calc(100vw-1rem)] overflow-hidden font-sans">
+    <div className="flex flex-col min-h w-[calc(100vw-1rem)] overflow-hidden font-sans">
       {/* 상단 헤더 */}
       <div className="bg-gray-900 text-white text-center py-6 shadow-md">
         <h1 className="text-4xl font-black mb-2">ARCTraj</h1>
@@ -179,7 +179,7 @@ export default function ArcTrajViewer() {
       {/* 본문 레이아웃 */}
       <div className="flex flex-grow w-full">
         {/* 왼쪽 사이드바 */}
-        <div className="w-[28rem] h-screen overflow-y-auto bg-gray-900 text-white p-4 flex flex-col">
+        <div className="w-[28rem] h-[calc(100vh-3rem)] overflow-y-auto bg-gray-900 text-white p-4 flex flex-col">
           <div className="sticky top-0 bg-gray-900 z-10 py-3">
               <h2 className="text-lg font-semibold">📁 Tasks</h2>
           </div>
