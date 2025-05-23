@@ -178,13 +178,13 @@ export default function ArcTrajViewer() {
 
       {/* 본문 레이아웃 */}
       <div className="flex flex-grow w-full">
-        {/* 왼쪽 사이드바 */}
-        <div className="w-[28rem] h-[calc(100vh-12rem)] overflow-y-auto bg-gray-900 text-white p-4 flex flex-col">
-          <div className="sticky top-0 z-10 bg-gray-900 px-4 py-3">
-            <h2 className="text-lg font-semibold">📁 Tasks</h2>
+                {/* 왼쪽 사이드바 */}
+        <div className="w-[28rem] h-[calc(100vh-12rem)] overflow-y-auto bg-gray-900 text-white flex flex-col">
+          <div className="sticky top-0 z-10 bg-gray-900 py-3">
+            <h2 className="text-lg font-semibold pl-4">📁 Tasks</h2>
           </div>
           {loading ? (
-            <p className="text-gray-400">Loading tasks...</p>
+            <p className="text-gray-400 px-4">Loading tasks...</p>
           ) : (
               <ul className="px-4 space-y-1">
               {tasks.map((task) => (
