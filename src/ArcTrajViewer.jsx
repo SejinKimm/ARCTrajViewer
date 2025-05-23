@@ -184,7 +184,7 @@ export default function ArcTrajViewer() {
             <h2 className="text-lg font-semibold pl-4">📁 Tasks</h2>
           </div>
           {loading ? (
-            <p className="text-gray-400 pl-6">Loading tasks...</p>
+            <p className="text-gray-400 pl-4">Loading tasks...</p>
           ) : (
               <ul className="px-4 space-y-1">
               {tasks.map((task) => (
@@ -256,7 +256,7 @@ export default function ArcTrajViewer() {
               </div>
             </div>
           ) : (
-            <p className="text-gray-400 pl-6">Please Select Task and Log.</p>
+            <p className="text-gray-400 pl-4">Please Select Task and Log.</p>
           )}
         </div>
       </div>
